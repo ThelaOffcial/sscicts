@@ -555,19 +555,70 @@ ICT Society is a student-driven community focused on developing ICT skills, inno
                     </a>
                 </div>
 
-                <div class="bg-slate-900/50 rounded-xl p-6 md:p-8 border border-white/5">
-                    <h3 class="font-bold text-lg mb-4">Send a Message</h3>
-                    <form class="space-y-4 text-left" onsubmit="event.preventDefault(); alert('Message simulation: Sent!');">
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <input type="text" placeholder="Name" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors text-white">
-                            <input type="email" placeholder="Email" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors text-white">
-                        </div>
-                        <textarea placeholder="Message" rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors text-white"></textarea>
-                        <button type="submit" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 rounded-lg transition-all transform active:scale-95 hover-trigger">
-                            Send Message
-                        </button>
-                    </form>
-                </div>
+                <!-- Add this in <head> (if not already) -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<!-- Contact Section -->
+<section id="contact" style="padding: 4rem 1rem; background: #0f172a; color: white; text-align: center;">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <h2 style="font-size: 2.8rem; font-weight: bold; margin-bottom: 1rem; background: linear-gradient(to right, #60a5fa, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      Send a Message
+    </h2>
+    <p style="color: #9ca3af; margin-bottom: 2.5rem;">Questions about SSCICTS, Lumina AI, or joining? We're here! 🚀</p>
+
+    <form id="contact-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <input type="text" name="name" placeholder="Your Name" required 
+        style="padding: 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; color: white; font-size: 1rem;" />
+      
+      <input type="email" name="email" placeholder="Your Email" required 
+        style="padding: 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; color: white; font-size: 1rem;" />
+      
+      <textarea name="message" rows="6" placeholder="Your Message..." required 
+        style="padding: 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; color: white; font-size: 1rem; resize: vertical;"></textarea>
+      
+      <button type="submit" id="submit-btn"
+        style="padding: 1rem; background: linear-gradient(to right, #2563eb, #1d4ed8); color: white; font-weight: bold; border: none; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s;">
+        Send Message
+      </button>
+    </form>
+
+    <p id="status" style="margin-top: 1rem; color: #9ca3af;"></p>
+  </div>
+</section>
+
+<!-- JavaScript - Add at bottom of body or in <script> tag -->
+<script type="text/javascript">
+  (function(){
+    emailjs.init({
+      publicKey: "nKfZuz7eERqWxPTD3",  // ← Paste your Public Key here
+    });
+  })();
+
+  document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const status = document.getElementById('status');
+    btn.value = 'Sending...';
+    btn.disabled = true;
+
+    emailjs.sendForm(
+      'service_hnf0i4q',      // ← From step 1
+      'template_970o1ge',     // ← Your main template ID (the one with auto-reply linked)
+      this
+    )
+    .then(function() {
+      status.textContent = 'Message sent! Thanks — check your inbox for confirmation 🚀';
+      status.style.color = '#34d399';
+      btn.value = 'Sent!';
+    }, function(error) {
+      status.textContent = 'Oops... something went wrong. Try again!';
+      status.style.color = '#ef4444';
+      console.log('EmailJS error:', error);
+      btn.value = 'Send Message';
+      btn.disabled = false;
+    });
+  });
+</script>
             </div>
         </div>
     </section>
@@ -578,7 +629,7 @@ ICT Society is a student-driven community focused on developing ICT skills, inno
             <div class="grid md:grid-cols-4 gap-8 mb-12">
                 <div class="col-span-1 md:col-span-2">
                     <a href="#" class="font-tech text-2xl font-bold tracking-wider hover:text-white transition-colors">
-                        SSC<span class="text-cyan-400">ICTS</span>
+                        SSC<span class="text-cyan-400">ICTS</span><img src="WhatsApp_Image_2026-01-13_at_1.36.12_PM-removebg-preview.png" width="200px"></img>
                     </a>
                     <p class="text-slate-400 mt-4 max-w-sm">
                         Empowering the next generation of tech leaders through innovation, collaboration, and excellence.
